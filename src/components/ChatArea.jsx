@@ -1,25 +1,47 @@
 import React from 'react';
+import '../styles.css'; // Ensure your styles.css is imported
 
 const ChatArea = ({ chat, onHeaderClick, onRemove }) => {
+  const messages = [
+    { from: 'them', content: 'Hello, how are you?' },
+    { from: 'us', content: 'I am good, thanks!' },
+    { from: 'them', content: 'Great to hear!' },
+  ];
+
   return (
-    <div className="flex flex-col h-full">
-      {/* Chat Header */}
-      <div className="p-4 bg-gray-300 flex justify-between items-center">
-        <div className="cursor-pointer" onClick={onHeaderClick}>
+    <div className="chat-area">
+      {/* Chat Header (fixed to top) */}
+      <div className="chat-header">
+        <div className="chat-header-name" onClick={onHeaderClick}>
           {chat.name}
         </div>
-        <button
-          onClick={onRemove}
-          className="p-2 bg-red-500 text-white rounded hover:bg-red-700"
-        >
+        <button className="remove-chat-button" onClick={onRemove}>
           Remove Chat
         </button>
       </div>
 
-      {/* Chat Body */}
-      <div className="p-4 flex-grow bg-white">
-        <p>{chat.lastMessage}</p>
-        <p>Chat content goes here...</p>
+      {/* Chat Body (message area) */}
+      <div className="chat-body">
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`message ${
+              message.from === 'us' ? 'message-us' : 'message-them'
+            }`}
+          >
+            {message.content}
+          </div>
+        ))}
+      </div>
+
+      {/* Chat Input (fixed to bottom) */}
+      <div className="chat-input">
+        <input
+          type="text"
+          placeholder="Type a message..."
+          className="chat-input-field"
+        />
+        <button className="send-button">Send</button>
       </div>
     </div>
   );

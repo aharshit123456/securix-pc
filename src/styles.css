@@ -1,0 +1,239 @@
+.chat-list-container {
+    background-color: #1f1f1f; /* Dark background for the container */
+    color: white;
+    height: 100%;
+    padding: 10px;
+    margin-right: -3px;
+    border-radius: 8px;
+    pointer-events: auto; /* Allow pointer events */
+
+  }
+  
+  .search-input {
+    cursor: default; /* Default cursor for search input */
+  }
+  .chat-list-container {
+  pointer-events: auto; /* Allow pointer events */
+}
+
+  .chat-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  .chat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #2a2a2a; /* Dark background for each chat item */
+    border-radius: 8px;
+    border-bottom: 1px solid #4a4a4a;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .chat-area {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #1a1a1a; /* Dark background */
+  }
+  
+  .chat-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #2c2c2c; /* Header background */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    z-index: 10;
+  }
+  
+  .chat-header-name {
+    cursor: pointer;
+  }
+  
+  .remove-chat-button {
+    padding: 8px 16px;
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .remove-chat-button:hover {
+    background-color: #c62828; /* Darker red */
+  }
+  
+  .chat-body {
+    flex-grow: 1;
+    margin-top: 64px; /* Space for header */
+    margin-bottom: 64px; /* Space for input */
+    padding: 16px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: white;
+  }
+  
+  .message-us {
+    background-color: #4caf50; /* Green */
+    align-self: flex-end; /* Align messages from us to the right */
+  }
+  
+  .message-them {
+    background-color: #2196f3; /* Blue */
+    align-self: flex-start; /* Align messages from them to the left */
+  }
+  
+  .chat-input {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #2c2c2c; /* Input background */
+    display: flex;
+    padding: 16px;
+    z-index: 10;
+  }
+  
+  .chat-input-field {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: #444; /* Darker input field */
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .chat-input-field:focus {
+    outline: none; /* Remove outline on focus */
+  }
+  
+  .send-button {
+    padding: 10px 16px;
+    background-color: #4caf50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .send-button:hover {
+    background-color: #388e3c; /* Darker green */
+  }
+  
+  
+  .chat-item:hover {
+    background-color: #3a3a3a; /* Darker on hover */
+  }
+  
+  .profile-picture {
+    margin-right: 12px;
+  }
+  
+  .chat-info {
+    flex: 1;
+  }
+  
+  .chat-name {
+    font-weight: bold;
+    font-size: 10px;
+  }
+  
+  .chat-last-message {
+    font-size: 8px;
+    color: #a6a6a6; /* Lighter gray for last message */
+  }
+  
+  .online-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: green; /* Online indicator */
+    border-radius: 50%;
+  }
+
+  
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #ccc; /* Grey stroke */
+  }
+  
+  .profile-image img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .tag {
+    display: inline-block;
+    background-color: #007bff; /* Blue background */
+    color: white;
+    border-radius: 3px;
+    padding: 4px 8px;
+    margin-top: 4px;
+  }
+  
+  .settings-button {
+    margin-left: auto; /* Aligns the settings button to the right */
+  }
+  
+  .settings-btn {
+    background: none;
+    border: none;
+    font-size: 24px; /* Adjust size as needed */
+    cursor: pointer;
+  }
+  
+  .schedule-meet {
+    border-radius: 5px; /* Round corners */
+  }
+  
+  .schedule-section {
+    margin-top: 16px;
+  }
+  
+  .schedule-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .schedule-icon {
+    margin-right: 8px; /* Space between icon and title */
+  }
+  
+  .schedule-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .schedule-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .schedule-card {
+    background-color: #2a2a2a; /* Dark background */
+    padding: 12px;
+    border-radius: 8px;
+    color: white;
+    border: 1px solid #444; /* Border color */
+  }
+  
+  .user-profile-master{
+    background-color: #1a1a1a;
+  }

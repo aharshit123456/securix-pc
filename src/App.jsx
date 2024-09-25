@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './index.css'; // Ensure this is the correct path
 import GridLayout from 'react-grid-layout';
 import Navbar from './components/Navbar.jsx';
 import ChatList from './components/ChatList.jsx';
@@ -36,7 +37,7 @@ const App = () => {
   return (
     <div style={{ height: '100vh', overflow: 'hidden' }}>
       {/* App Header */}
-      <div className="p-4 bg-gray-800 text-white text-center text-2xl font-bold">
+      <div className="header-securix">
         Securix Labs
       </div>
 
@@ -48,19 +49,21 @@ const App = () => {
         width={window.innerWidth}
         isDraggable={false}
         isResizable={false}
+        draggableHandle=".draggable-handle" // Only allow dragging from this class
+
       >
         {/* Navbar */}
-        <div key="navbar" className="border-2 border-blue-500 bg-blue-200">
+        <div key="navbar" className="">
           <Navbar />
         </div>
 
         {/* Chat List */}
-        <div key="chatList" className="border-2 border-green-500 bg-green-200">
+        <div key="chatList" className="draggable-handle">
           <ChatList onChatClick={handleChatClick} />
         </div>
 
         {/* Chat Area */}
-        <div key="chatArea" className="border-2 border-yellow-500 bg-yellow-200">
+        <div key="chatArea" className="draggable-handle">
           {currentChat ? (
             <ChatArea
               chat={currentChat}
@@ -73,7 +76,7 @@ const App = () => {
         </div>
 
         {/* User Profile */}
-        <div key="userProfile" className="border-2 border-red-500 bg-red-200">
+        <div key="userProfile" className="draggable-handle">
           {showUserProfile && (
             <UserProfile chat={currentChat} onRemove={() => setShowUserProfile(false)} />
           )}

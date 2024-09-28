@@ -1,0 +1,24 @@
+
+> securix-pc@1.0.0 start
+> electron-forge start
+
+[33m>[39m Checking your system
+[33m>[39m Checking git exists
+[33m>[39m Checking node version
+[33m>[39m Checking packageManager version
+[32m√[39m Found node@21.6.2
+[32m√[39m Found git@2.45.1.windows.1
+[32m√[39m Found yarn@1.22.22
+[32m√[39m Checking your system
+[?25h[33m>[39m Locating application
+[32m√[39m Locating application
+[33m>[39m Loading configuration
+[32m√[39m Loading configuration
+[33m>[39m Preparing native dependencies
+[32m√[39m Preparing native dependencies
+[33m>[39m Running generateAssets hook
+[32m√[39m Running generateAssets hook
+[?25h[33m>[39m [plugin-webpack] Compiling main process code
+[32m√[39m [plugin-webpack] Compiling main process code
+[33m>[39m [plugin-webpack] Launching dev servers for renderer process code
+[?25h

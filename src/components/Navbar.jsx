@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <div className="flex flex-col items-center h-screen" style={{
       width: '6vw',
-      height: '100vh',
+      height: '95vh',
       backgroundColor: '#001F3F', // Navy dark blue
       color: 'white',
       borderRadius: '5px',

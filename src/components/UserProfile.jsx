@@ -9,18 +9,23 @@ const UserProfile = ({ chat, onRemove }) => {
         <div>
           {/* Profile Section */}
           <div className="flex items-center">
+          <button className="remove-chat-button" onClick={onRemove}>
+          Remove Profile
+          </button>
+             <div className="profile-container">
             {/* Circular Image View */}
             <div className="profile-image">
               <img
-                src="via.placeholder.com/100" // Placeholder image URL
+                src="../../assets/images/placeholder-profile.png" // Placeholder image URL
                 alt={`${chat.name}'s profile`}
                 className="rounded-full border border-gray-400"
               />
             </div>
-            <div className="ml-4">
+            <div className="ml-4 details-section">
               <div className="text-xl font-bold">{chat.name}</div>
               <div className="text-gray-500">+91 1234567890</div>
               <div className="tag">Family</div>
+            </div>
             </div>
             {/* Three Dots Setting Button */}
             <div className="settings-button">
@@ -29,7 +34,6 @@ const UserProfile = ({ chat, onRemove }) => {
           </div>
 
           <button
-            onClick={onRemove}
             className="mt-4 p-2 bg-red-500 text-white rounded hover:bg-red-700 schedule-meet"
           >
             Schedule a Meet

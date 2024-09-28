@@ -3,10 +3,52 @@
 @tailwind utilities;
 
 
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.input-field {
+  width: 300px;
+  margin: 10px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+}
+
+.auth-button {
+  width: 300px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+}
+
+.switch-mode {
+  margin-top: 10px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+
 body {
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, */
     /* Arial, sans-serif; */
   margin: auto;
+  color: white;
   background-color: black;
   /* max-width: 38rem;
   padding: 2rem; */
@@ -17,8 +59,12 @@ body {
   background-color:gray 800;
   color: white ;
   text-align: center; 
-  text-size: 1.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
+}
+
+.userProfile{
+  margin-left: 4px;
 }
 
 /* Add this to your index.css */

@@ -1,45 +1,76 @@
-import React, { useState } from 'react';
-import './index.css'; // Ensure this is the correct path
+import React, { useState, useEffect } from 'react';
+import { supabase } from './supabaseClient.jsx';
+import './index.css';
 import GridLayout from 'react-grid-layout';
 import Navbar from './components/Navbar.jsx';
 import ChatList from './components/ChatList.jsx';
 import ChatArea from './components/ChatArea.jsx';
 import UserProfile from './components/UserProfile.jsx';
+import Login from './components//Login.jsx'; // Import the Login component
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
+// const HEADER_TEXT = 'Securix Labs'; // Constant for header text
+
 const App = () => {
-  // Manage state for the current chat and visibility of the user profile
+  const [session, setSession] = useState(null); // To track session
   const [currentChat, setCurrentChat] = useState(null);
   const [showUserProfile, setShowUserProfile] = useState(false);
 
+  useEffect(() => {
+    // Fetch the current session using the updated method
+    const fetchSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
+    };
+  
+    fetchSession();
+  
+    // Listen to auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, newSession) => {
+      setSession(newSession?.session);
+    });
+  
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, []);
+  
+  
+
   const handleChatClick = (chat) => {
     setCurrentChat(chat);
-    setShowUserProfile(false); // Hide user profile when switching chats
+    setShowUserProfile(false); 
   };
 
   const handleHeaderClick = () => {
-    setShowUserProfile(true); // Show the user profile when chat header is clicked
+    setShowUserProfile(true);
   };
 
   const handleRemoveChat = () => {
     setCurrentChat(null);
-    setShowUserProfile(false); // Hide both chat and profile when chat is removed
+    setShowUserProfile(false);
   };
 
   const layout = [
-    { i: 'navbar', x: 0, y: 0, w: 1, h: 2 }, // Navbar - 5% width
-    { i: 'chatList', x: 1, y: 0, w: 2, h: 2 }, // Chat List - 15% width
-    { i: 'chatArea', x: 3, y: 0, w: 6, h: 2 }, // Chat Area - 50% width
-    { i: 'userProfile', x: 9, y: 0, w: 3, h: 2 }, // User Profile - 30% width
+    { i: 'navbar', x: 0, y: 0, w: 1, h: 2 },
+    { i: 'chatList', x: 1, y: 0, w: 2, h: 2 },
+    { i: 'chatArea', x: 3, y: 0, w: 6, h: 2 },
+    { i: 'userProfile', x: 9, y: 0, w: 3, h: 2 },
   ];
+
+  // If not authenticated, show login screen
+  if (!session) {
+    console.log("Rendering Login");
+    return <Login onLogin={() => setSession(supabase.auth.session())} />;
+  }
+  
 
   return (
     <div style={{ height: '100vh', overflow: 'hidden' }}>
-      {/* App Header */}
-      <div className="header-securix">
-        Securix Labs
-      </div>
+      {/* <div className="p-4 bg-gray-800 text-white text-center text-2xl font-bold">
+        {HEADER_TEXT}
+      </div> */}
 
       <GridLayout
         className="layout"
@@ -49,20 +80,17 @@ const App = () => {
         width={window.innerWidth}
         isDraggable={false}
         isResizable={false}
-        draggableHandle=".draggable-handle" // Only allow dragging from this class
-
+        draggableHandle=".draggable-handle"
       >
-        {/* Navbar */}
-        <div key="navbar" className="">
+        <div key="navbar">
+          {console.log('Navbar rendered')}
           <Navbar />
         </div>
 
-        {/* Chat List */}
         <div key="chatList" className="draggable-handle">
           <ChatList onChatClick={handleChatClick} />
         </div>
 
-        {/* Chat Area */}
         <div key="chatArea" className="draggable-handle">
           {currentChat ? (
             <ChatArea
@@ -71,11 +99,10 @@ const App = () => {
               onRemove={handleRemoveChat}
             />
           ) : (
-            <div className="p-4">Select a chat to start messaging</div>
+            <div className="p-4 text-white">Select a chat to start messaging</div>
           )}
         </div>
 
-        {/* User Profile */}
         <div key="userProfile" className="draggable-handle">
           {showUserProfile && (
             <UserProfile chat={currentChat} onRemove={() => setShowUserProfile(false)} />

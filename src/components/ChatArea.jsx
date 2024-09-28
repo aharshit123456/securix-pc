@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from './supabaseClient.jsx';  // Adjust the path if needed
+import { supabase } from './supabaseClient.jsx';  // Ensure this path is correct
+import { SignalProtocolAddress, SessionCipher } from '@signalapp/libsignal-client';
 
 const ChatArea = ({ chat, onHeaderClick, onRemove }) => {
   const [messages, setMessages] = useState([]);
@@ -14,12 +15,22 @@ const ChatArea = ({ chat, onHeaderClick, onRemove }) => {
         .order('timestamp', { ascending: true });
 
       if (error) console.error('Error fetching messages:', error);
-      else setMessages(data);
+      else {
+        const decryptedMessages = await Promise.all(data.map(async (message) => {
+          const senderAddress = new SignalProtocolAddress(message.sender_id, 1);
+          const sessionCipher = new SessionCipher(senderAddress);
+
+          // Decrypt message
+          const decryptedMessage = await sessionCipher.decryptPreKeyWhisperMessage(message.message_text, 'binary');
+          return { ...message, message_text: new TextDecoder().decode(decryptedMessage) };
+        }));
+        setMessages(decryptedMessages);
+      }
     };
 
     fetchMessages();
 
-    // Set up real-time subscription to listen for new messages
+    // Real-time subscription to listen for new messages
     const messageSubscription = supabase
       .from(`messages:chat_id=eq.${chat.id}`)
       .on('INSERT', (payload) => {
@@ -35,17 +46,37 @@ const ChatArea = ({ chat, onHeaderClick, onRemove }) => {
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
 
-    const { error } = await supabase.from('messages').insert([
+    // Fetch recipient keys from database
+    const { data: recipientKeys, error } = await supabase
+      .from('user_keys')
+      .select('identityKeyPair')
+      .eq('user_id', chat.recipient_id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching recipient keys:', error);
+      return;
+    }
+
+    // Create Signal Protocol address for recipient
+    const recipientAddress = new SignalProtocolAddress(chat.recipient_id, 1);
+    const sessionCipher = new SessionCipher(recipientAddress);
+
+    // Encrypt message
+    const encryptedMessage = await sessionCipher.encrypt(new TextEncoder().encode(newMessage));
+
+    // Store encrypted message in database
+    const { error: insertError } = await supabase.from('messages').insert([
       {
         chat_id: chat.id,
         sender_id: supabase.auth.user().id,
-        message_text: newMessage,
+        message_text: encryptedMessage,
         timestamp: new Date(),
       },
     ]);
 
-    if (error) {
-      console.error('Error sending message:', error);
+    if (insertError) {
+      console.error('Error sending message:', insertError);
     } else {
       setNewMessage('');
     }

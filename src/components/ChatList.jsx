@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { supabase } from './supabaseClient.jsx'; // Ensure this is your correct path
+import { supabase } from './supabaseClient.jsx';  // Ensure this is your correct path
 import '../styles.css';
 
 const ChatList = ({ onChatClick }) => {
@@ -41,7 +41,6 @@ const ChatList = ({ onChatClick }) => {
 
   // Handle starting a new chat
   const handleSendHiMessage = async () => {
-    // Check if the user with the entered email exists
     const { data: user, error } = await supabase
       .from('users')
       .select('id')
@@ -56,7 +55,6 @@ const ChatList = ({ onChatClick }) => {
 
     const userId = supabase.auth.user().id;
 
-    // Insert a new message saying "Hi"
     const { error: insertError } = await supabase.from('messages').insert([
       {
         sender_id: userId,
@@ -69,14 +67,14 @@ const ChatList = ({ onChatClick }) => {
     if (insertError) {
       console.error('Error sending message:', insertError);
     } else {
-      // Create a new chat entry in the `chats` table
+      // Create a new chat entry
       await supabase.from('chats').insert([
         { user1_id: userId, user2_id: user.id, lastMessage: 'Hi' },
       ]);
       alert('Hi message sent!');
     }
 
-    handleCloseNewChat(); // Close the dialog after sending the message
+    handleCloseNewChat();
   };
 
   return (
@@ -92,12 +90,9 @@ const ChatList = ({ onChatClick }) => {
           style: {
             fontSize: '14px',
             borderRadius: '5px',
-            backgroundColor: '#1e1e1e', // Dark background for input
+            backgroundColor: '#1e1e1e',
             color: 'white',
           },
-        }}
-        InputLabelProps={{
-          style: { color: 'white' },
         }}
       />
 
@@ -148,16 +143,13 @@ const ChatList = ({ onChatClick }) => {
             className="chat-item"
             onClick={() => onChatClick(chat)}
           >
-            {/* Profile Picture or Icon */}
             <div className="profile-picture">
-              <AccountCircleIcon style={{ fontSize: 20, color: '#7d7d7d' }} /> {/* Placeholder Icon */}
+              <AccountCircleIcon style={{ fontSize: 20, color: '#7d7d7d' }} />
             </div>
             <div className="chat-info">
               <div className="chat-name">{chat.name}</div>
               <div className="chat-last-message">{chat.lastMessage}</div>
             </div>
-            {/* Online Indicator */}
-            <div className="online-indicator"></div>
           </div>
         ))}
       </div>
